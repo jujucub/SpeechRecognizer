@@ -1,4 +1,4 @@
-#if UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
+#if UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX || UNITY_IOS
 using System;
 using System.Runtime.InteropServices;
 
@@ -6,22 +6,28 @@ namespace SpeechRecognizer
 {
     public class SpeechRecognizerMacOS
     {
+        #if UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
+        const string DLL_NAME = "SpeechRecognizer";
+        #elif UNITY_IOS
+        const string DLL_NAME = "__Internal";
+        #endif
+
         static class Native
         {
-            [DllImport("SpeechRecognizer")]
+            [DllImport(DLL_NAME)]
             public static extern void RegisterRecognizedCallback(RecognizedCallback callback);
-            [DllImport("SpeechRecognizer")]
+            [DllImport(DLL_NAME)]
             public static extern void RegisterPartialRecognizedCallback(RecognizedCallback callback);
-            [DllImport("SpeechRecognizer")]
+            [DllImport(DLL_NAME)]
             public static extern void RegisterErrorCallback(ErrroCallback callback);
 
-            [DllImport("SpeechRecognizer")]
+            [DllImport(DLL_NAME)]
             public static extern void Initialize(string locale);
-            [DllImport("SpeechRecognizer")]
+            [DllImport(DLL_NAME)]
             public static extern void StartListening();
-            [DllImport("SpeechRecognizer")]
+            [DllImport(DLL_NAME)]
             public static extern void StopListening();
-            [DllImport("SpeechRecognizer")]
+            [DllImport(DLL_NAME)]
             public static extern void Finish();
         }
 

@@ -17,7 +17,7 @@ namespace SpeechRecognizer
 
         IEnumerator Start()
         {
-#if UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
+#if UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX || UNITY_IOS
             SpeechRecognizerMacOS.Instance.Initialize();
             SpeechRecognizerMacOS.Instance.RecognizedEvent += OnRecognized;
             SpeechRecognizerMacOS.Instance.PartialRecognizedEvent += OnPartialRecognized;
@@ -39,7 +39,7 @@ namespace SpeechRecognizer
         void OnDestroy()
         {
             StopListening();
-#if UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
+#if UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX || UNITY_IOS
             SpeechRecognizerMacOS.Instance.Finish();
 #endif
         }
@@ -67,7 +67,7 @@ namespace SpeechRecognizer
             }
 #endif
 
-#if UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
+#if UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX || UNITY_IOS
             SpeechRecognizerMacOS.Instance.StartListening();
 #endif
         }
@@ -80,7 +80,7 @@ namespace SpeechRecognizer
             _speechToText = null;
 #endif
 
-#if UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
+#if UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX || UNITY_IOS
             SpeechRecognizerMacOS.Instance.StopListening();
 #endif
         }
