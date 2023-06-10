@@ -1,7 +1,5 @@
+#if UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using System.Runtime.InteropServices;
 
 namespace SpeechRecognizer
@@ -92,3 +90,4 @@ namespace SpeechRecognizer
         }
     }
 }
+#endif
