@@ -76,10 +76,13 @@
 }
 
 - (void)stopListening {
+    [self.audioEngine.inputNode removeTapOnBus:0];
     [self.audioEngine stop];
     [self.recognitionRequest endAudio];
-    self.recognitionTask = nil;
-    
+    if (self.recognitionTask != nil) {
+        [self.recognitionTask cancel];
+        self.recognitionTask = nil;
+    }
 }
 
 // Helper method to create C string copy
