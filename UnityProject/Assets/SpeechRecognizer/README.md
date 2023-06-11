@@ -7,3 +7,7 @@ This package is for using native speech recognition in Unity.
 | MacOS/IOS  |  https://developer.apple.com/documentation/speech  |
 | Windows | https://docs.unity3d.com/ja/2021.1/ScriptReference/Windows.Speech.DictationRecognizer.html |
 | Android | https://developer.android.com/reference/android/speech/SpeechRecognizer |
+
+# UPM
+Add package from git URL
+https://github.com/jujucub/SpeechRecognizer.git?path=UnityProject/Assets/SpeechRecognizer
