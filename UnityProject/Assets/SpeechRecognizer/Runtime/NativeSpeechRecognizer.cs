@@ -35,6 +35,7 @@ namespace SpeechRecognizer
             _dictationRecognizer = new DictationRecognizer();
             _dictationRecognizer.DictationResult += OnDictationResult;
             _dictationRecognizer.DictationHypothesis += OnDictationHypothesis;
+            _dictationRecognizer.DictationError += OnDictationError;
 #endif
             yield return RequestMicrophonePermission();
 
@@ -117,6 +118,11 @@ namespace SpeechRecognizer
         {
             OnPartialRecognized(text);
         }
+
+        private void OnDictationError(string error, int hresult)
+        {
+            OnError(hresult, error);
+        }
 #endif
 
         private void OnRecognized(string text)
@@ -127,6 +133,11 @@ namespace SpeechRecognizer
         private void OnPartialRecognized(string text)
         {
             PartialRecognizedEvent?.Invoke(text);
+        }
+
+        private void OnError(long errorCode, string description)
+        {
+            ErrorEvent?.Invoke(new SpeechRecognizerException(errorCode, description));
         }
     }
 }
