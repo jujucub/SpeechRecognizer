@@ -3,6 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+using UnityEngine.Windows.Speech;
+#endif
+
 namespace SpeechRecognizer
 {
     public class NativeSpeechRecognizer : MonoBehaviour, IRecognizer
@@ -15,12 +19,22 @@ namespace SpeechRecognizer
         private AndroidJavaClass _speechToText;
 #endif
 
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+        private DictationRecognizer _dictationRecognizer;
+#endif
+
         IEnumerator Start()
         {
 #if UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX || UNITY_IOS
             SpeechRecognizerMacOS.Instance.Initialize();
             SpeechRecognizerMacOS.Instance.RecognizedEvent += OnRecognized;
             SpeechRecognizerMacOS.Instance.PartialRecognizedEvent += OnPartialRecognized;
+#endif
+
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+            _dictationRecognizer = new DictationRecognizer();
+            _dictationRecognizer.DictationResult += OnDictationResult;
+            _dictationRecognizer.DictationHypothesis += OnDictationHypothesis;
 #endif
             yield return RequestMicrophonePermission();
 
@@ -70,6 +84,10 @@ namespace SpeechRecognizer
 #if UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX || UNITY_IOS
             SpeechRecognizerMacOS.Instance.StartListening();
 #endif
+
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+            _dictationRecognizer.Start();
+#endif
         }
 
         public void StopListening()
@@ -83,7 +101,23 @@ namespace SpeechRecognizer
 #if UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX || UNITY_IOS
             SpeechRecognizerMacOS.Instance.StopListening();
 #endif
+
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+            _dictationRecognizer.Stop();
+#endif
         }
+
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+        private void OnDictationResult(string text, ConfidenceLevel confidenceLevel)
+        {
+            OnRecognized(text);
+        }
+
+        private void OnDictationHypothesis(string text)
+        {
+            OnPartialRecognized(text);
+        }
+#endif
 
         private void OnRecognized(string text)
         {
