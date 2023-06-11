@@ -1,11 +1,9 @@
 ﻿{
-  "name": "com.juju.SpeechRecognizer",
+  "name": "com.juju.speechrecognizer",
   "version": "0.0.1",
   "displayName": "Speech Recognizer",
   "description": "This package is for using native speech recognition in Unity.",
   "unity": "2021.3",
-  "dependencies": {
-  },
   "keywords": [
     "Speech",
     "Recognizer"
